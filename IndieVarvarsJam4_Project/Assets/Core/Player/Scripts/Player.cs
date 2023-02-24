@@ -8,63 +8,104 @@ public class Player : MonoBehaviour
     {
         _rigidBody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
-
+        _audioSource = GetComponent<AudioSource>();
         _camera = Camera.main;
+
+        _audioSource.clip = _stepSound;
 
         SetCameraToPlayer();
     }
 
     private void Update()
     {
-        if (Input.GetAxisRaw("Horizontal") != 0)
+        if (_moveBlock == false)
         {
-            if (_idleCor != null)
+            if (Input.GetAxisRaw("Horizontal") != 0)
             {
-                StopCoroutine(_idleCor);
-                _idleCor = null;
+                if (_idleCor != null)
+                {
+                    StopCoroutine(_idleCor);
+                    _idleCor = null;
+                    _animator.StopPlayback();
+                    _animator.SetBool("isWalking", true);
+                }
+
+                if (Input.GetAxisRaw("Horizontal") > 0)
+                {
+                    transform.rotation = Quaternion.Euler(0, 0, 0);
+                }
+
+                else if (Input.GetAxisRaw("Horizontal") < 0)
+                {
+                    transform.rotation = Quaternion.Euler(0, 180, 0);
+                }
+
+                Move();
             }
 
-            Move();
-        }
 
-        else if (Input.GetAxisRaw("Horizontal") == 0)
-        {
-            StopMove();
-
-            if (_idleCor == null)
+            else if (Input.GetAxisRaw("Horizontal") == 0)
             {
-                _idleCor = IdleCor();
-                StartCoroutine(_idleCor);
+                StopMove();
+
+                if (_idleCor == null)
+                {
+                    _animator.SetBool("isWalking", false);
+                    _idleCor = IdleCor();
+                    StartCoroutine(_idleCor);
+                }
             }
         }
-    }
 
-
-    private void LateUpdate()
-    {
         MoveCameraToPlayer();
     }
+
 
     #region Move
     private Rigidbody2D _rigidBody;
 
     [Header("Player Move")]
     [SerializeField] private float _moveSpeed;
+    [SerializeField] private AudioClip _stepSound;
+
     private float _horizontal;
 
     private Animator _animator;
+    private AudioSource _audioSource;
+
     private IEnumerator _idleCor;
+
+    private bool _moveBlock = true;
 
     private void Move()
     {
         _horizontal = Input.GetAxisRaw("Horizontal");
 
         _rigidBody.velocity = new Vector2(_horizontal * _moveSpeed, _rigidBody.velocity.y);
+
     }
 
     private void StopMove()
     {
         _rigidBody.velocity = new Vector2(0, 0);
+        _animator.SetBool("isWalking", false);
+        _animator.StopPlayback();
+    }
+
+    public void PlaySound()
+    {
+        _audioSource.Play();
+    }
+
+    public void BlockMove()
+    {
+        _moveBlock = true;
+        StopMove();
+    }
+
+    public void UnblockMove()
+    {
+        _moveBlock = false;
     }
 
     private IEnumerator IdleCor()
@@ -72,7 +113,11 @@ public class Player : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(Random.Range(5f, 10f));
-            _animator.Play("Idle", 0, 0f);
+
+            if (_animator.GetBool("isWalking") == false)
+            {
+                _animator.Play("Idle", 0, 0f);
+            }
         }
     }
     #endregion

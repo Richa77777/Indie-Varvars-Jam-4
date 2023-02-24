@@ -29,25 +29,41 @@ namespace DialogSystem
         private int _step = 0;
 
         private int _charCount = 0;
-        
+
+        private Player _player;
+
         private void Start()
         {
             _audioSource = GetComponent<AudioSource>();
             _audioSource.clip = _charSound;
+            _player = FindObjectOfType<Player>(true);
         }
 
         private void Update()
         {
             if (Input.GetMouseButtonUp(0) || Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.Return))
             {
-                if (_mightPlayPhrase == true)
+                if (_dialogTab.activeInHierarchy == true)
                 {
-                    PlayNextPhrase();
-                }
+                    if (_mightPlayPhrase == true)
+                    {
+                        if (_step < _currentDialog.PhrasesGet.Count)
+                        {
+                            PlayNextPhrase();
+                        }
 
-                else if (_charCount > 3)
-                {
-                    Skip();
+                        else if (_step >= _currentDialog.PhrasesGet.Count)
+                        {
+
+                            _dialogTab.SetActive(false);
+                            _player.UnblockMove();
+                        }
+                    }
+
+                    else if (_charCount > 3 && _step < _currentDialog.PhrasesGet.Count)
+                    {
+                        Skip();
+                    }
                 }
             }
         }
@@ -63,6 +79,7 @@ namespace DialogSystem
             _currentDialog = dialog;
 
             _dialogTab.SetActive(true);
+            _player.BlockMove();
 
             PlayNextPhrase();
         }
