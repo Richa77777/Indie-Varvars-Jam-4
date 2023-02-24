@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Door : MonoBehaviour
+public class ExitDoor : MonoBehaviour
 {
     [SerializeField] private Door _attachDoor;
     [SerializeField] private GameObject _point;
@@ -12,7 +12,7 @@ public class Door : MonoBehaviour
     [SerializeField] private AudioClip _doorSound;
     private AudioSource _audioSource;
 
-    [SerializeField] private bool _doorOpen = false;
+    private bool _doorOpen = false;
 
     public bool DoorOpenGet => _doorOpen;
     public GameObject PointGet => _point;
