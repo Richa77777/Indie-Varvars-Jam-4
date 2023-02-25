@@ -2,11 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using DialogSystem;
 
 public class ChoiceLift : MonoBehaviour
 {
     [SerializeField] private Light2D _globalLight;
     [SerializeField] private GameObject _vklEgo;
+
+    [SerializeField] private DialogController _dialogController;
+    [SerializeField] private Dialog _dialog1;
+    [SerializeField] private Dialog _dialog2;
 
     private LiftController _liftController;
     private Player _player;
@@ -41,6 +46,7 @@ public class ChoiceLift : MonoBehaviour
         _liftController.AudioSourceGet.Stop();
         _liftController.AudioSourceGet.loop = false;
 
+        _liftController.DoorsOpenSound();
         _animator.Play("LiftOtkr", 0, 0f);
 
         yield return new WaitForSeconds(_animator.GetCurrentAnimatorClipInfo(0).Length + 0.5f);
@@ -78,14 +84,14 @@ public class ChoiceLift : MonoBehaviour
 
         yield return new WaitForSeconds(3.5f);
 
+        _player.BlockMove();
+
         _liftController.AudioSourceGet.loop = true;
         _liftController.LiftEdetSound();
 
         Color color = _player.GetComponent<SpriteRenderer>().color;
         color.a = 0f;
         _player.GetComponent<SpriteRenderer>().color = color;
-
-        _player.BlockMove();
 
         target = new Vector3(_player.transform.position.x, _player.transform.position.y - 15f, _player.transform.position.z);
 
@@ -96,6 +102,23 @@ public class ChoiceLift : MonoBehaviour
         }
 
         _liftController.AudioSourceGet.loop = false;
+
+        _liftController.LiftSlomalsaSound();
+
+        yield return new WaitForSeconds(0.5f);
+
+        _dialogController.PlayNewDialog(_dialog1);
+
+        yield return new WaitForSeconds(2f);
+
         _liftController.LiftPeredPadenSound();
+
+        yield return new WaitForSeconds(1.75f);
+
+        _liftController.PadenieSound();
+
+        yield return new WaitForSeconds(2f);
+
+        _dialogController.PlayNewDialog(_dialog2);
     }
 }

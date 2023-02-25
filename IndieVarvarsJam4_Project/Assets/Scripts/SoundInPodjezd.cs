@@ -5,7 +5,7 @@ using UnityEngine;
 public class SoundInPodjezd : MonoBehaviour
 {
     private AudioSource _audioSource;
-    [SerializeField] private GameObject _whatOn;
+    [SerializeField] private GameObject[] _whatOn = new GameObject[2];
 
 
     private void Start()
@@ -15,13 +15,21 @@ public class SoundInPodjezd : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        _whatOn.SetActive(true);
+        for (int i = 0; i < _whatOn.Length; i++)
+        {
+            _whatOn[i].SetActive(true);
+        }
+
         _audioSource.Play();
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        _whatOn.SetActive(false);
+        for (int i = 0; i < _whatOn.Length; i++)
+        {
+            _whatOn[i].SetActive(false);
+        }
+
         _audioSource.Stop();
     }
 }

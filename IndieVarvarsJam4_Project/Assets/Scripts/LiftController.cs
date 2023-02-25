@@ -10,8 +10,8 @@ public class LiftController : MonoBehaviour
     [SerializeField] private AudioClip _najalKnopku;
     [SerializeField] private AudioClip _liftEdet;
     [SerializeField] private AudioClip _padenie;
-    [SerializeField] private AudioClip _LiftPeredPaden;
-
+    [SerializeField] private AudioClip _liftPeredPaden;
+    [SerializeField] private AudioClip _liftSlomalsa;
     private AudioSource _audioSource;
 
     public AudioSource AudioSourceGet => _audioSource;
@@ -59,7 +59,12 @@ public class LiftController : MonoBehaviour
 
     public void LiftPeredPadenSound()
     {
-        _audioSource.clip = _LiftPeredPaden;
+        _audioSource.clip = _liftPeredPaden;
+        _audioSource.Play();
+    }
+    public void LiftSlomalsaSound()
+    {
+        _audioSource.clip = _liftSlomalsa;
         _audioSource.Play();
     }
 }

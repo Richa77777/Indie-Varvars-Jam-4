@@ -19,14 +19,14 @@ public class Player : MonoBehaviour
         {
             if (Input.GetAxisRaw("Horizontal") != 0)
             {
+                _animator.SetBool("isWalking", true);
+
                 if (_idleCor != null)
                 {
                     StopCoroutine(_idleCor);
                     _idleCor = null;
                     _animator.StopPlayback();
                 }
-
-                _animator.SetBool("isWalking", true);
 
                 if (Input.GetAxisRaw("Horizontal") > 0)
                 {
@@ -72,6 +72,8 @@ public class Player : MonoBehaviour
 
     private bool _moveBlock = true;
 
+    public Animator AnimatorGet => _animator;
+
     private void Move()
     {
         _horizontal = Input.GetAxisRaw("Horizontal");
@@ -95,12 +97,14 @@ public class Player : MonoBehaviour
     public void BlockMove()
     {
         _moveBlock = true;
+        _animator.enabled = false;
         StopMove();
     }
 
     public void UnblockMove()
     {
         _moveBlock = false;
+        _animator.enabled = true;
     }
 
     private IEnumerator IdleCor()
