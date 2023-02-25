@@ -27,8 +27,9 @@ public class Player : MonoBehaviour
                     StopCoroutine(_idleCor);
                     _idleCor = null;
                     _animator.StopPlayback();
-                    _animator.SetBool("isWalking", true);
                 }
+
+                _animator.SetBool("isWalking", true);
 
                 if (Input.GetAxisRaw("Horizontal") > 0)
                 {
@@ -56,7 +57,10 @@ public class Player : MonoBehaviour
                 }
             }
         }
+    }
 
+    private void FixedUpdate()
+    {
         MoveCameraToPlayer();
     }
 
