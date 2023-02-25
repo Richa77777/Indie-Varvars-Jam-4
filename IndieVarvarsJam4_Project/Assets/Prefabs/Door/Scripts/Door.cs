@@ -25,14 +25,13 @@ public class Door : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out Player component) && _doorOpen == true)
+        if (collision.CompareTag("Player") && _doorOpen == true)
         {
             if (_attachDoor != null)
             {
                 _audioSource.Play();
 
                 collision.gameObject.transform.position = _attachDoor.PointGet.transform.position;
-                component.SetCameraToPlayer();
             }
         }
 

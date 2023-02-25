@@ -37,7 +37,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3885775708375331624
 SpriteRenderer:
@@ -119,8 +119,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 1.5
   _stepSound: {fileID: 8300000, guid: 7187dc81f98b8be4eb97bfc4dd9a5abf, type: 3}
-  _cameraMoveSpeed: 0.75
-  _yOffset: 1.5
 --- !u!50 &3885775708375331621
 Rigidbody2D:
   serializedVersion: 4
