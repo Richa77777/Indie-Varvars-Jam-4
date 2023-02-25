@@ -9,11 +9,8 @@ public class Player : MonoBehaviour
         _rigidBody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _audioSource = GetComponent<AudioSource>();
-        _camera = Camera.main;
 
         _audioSource.clip = _stepSound;
-
-        SetCameraToPlayer();
     }
 
     private void Update()
@@ -58,12 +55,6 @@ public class Player : MonoBehaviour
             }
         }
     }
-
-    private void FixedUpdate()
-    {
-        MoveCameraToPlayer();
-    }
-
 
     #region Move
     private Rigidbody2D _rigidBody;
@@ -123,43 +114,6 @@ public class Player : MonoBehaviour
                 _animator.Play("Idle", 0, 0f);
             }
         }
-    }
-    #endregion
-
-    #region CameraMove
-    private Camera _camera;
-
-    [Space(15f)]
-    [Header("Camera Move")]
-    [SerializeField] private float _cameraMoveSpeed;
-    [SerializeField] private float _yOffset;
-
-    //[Space(15f)]
-
-    //[SerializeField] private float _xAxisMin;
-    //[SerializeField] private float _xAxisMax;
-
-    //[SerializeField] private float _yAxisMin;
-    //[SerializeField] private float _yAxisMax;
-
-    public void SetCameraToPlayer()
-    {
-        //float xAxis = Mathf.Clamp(transform.position.x, _xAxisMin, _xAxisMax);
-        //float yAxis = Mathf.Clamp(transform.position.y + _yOffset, _yAxisMin, _yAxisMax);
-
-        Vector3 targetPos = new Vector3(transform.position.x, transform.position.y + _yOffset, _camera.transform.position.z);
-
-        _camera.transform.position = targetPos;
-    }
-
-    private void MoveCameraToPlayer()
-    {
-        //float xAxis = Mathf.Clamp(transform.position.x, _xAxisMin, _xAxisMax);
-        //float yAxis = Mathf.Clamp(transform.position.y + _yOffset, _yAxisMin, _yAxisMax);
-
-        Vector3 targetPos = new Vector3(transform.position.x, transform.position.y + _yOffset, _camera.transform.position.z);
-
-        _camera.transform.position = Vector3.Lerp(_camera.transform.position, targetPos, _cameraMoveSpeed * Time.deltaTime);
     }
     #endregion
 }
