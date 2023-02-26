@@ -17,15 +17,19 @@ public class UlicaScript : MonoBehaviour
 
     private IEnumerator _diedCor;
 
+    private PlayerActionsController _actionsController;
+
     private void Start()
     {
         _player = FindObjectOfType<Player>(true);
         _audioSource = GetComponent<AudioSource>();
         _playerRenderer = _player.gameObject.GetComponent<SpriteRenderer>();
+        _actionsController = FindObjectOfType<PlayerActionsController>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        _actionsController.DiedAmountAdd = 1;
         _diedCor = DiedCor();
 
         StartCoroutine(_diedCor);
@@ -35,6 +39,8 @@ public class UlicaScript : MonoBehaviour
     {
         _player.BlockMove();
 
+        yield return new WaitForSeconds(0.16f);
+
         _audioSource.PlayOneShot(_boom);
         _playerRenderer.sprite = _koleni;
 
@@ -42,8 +48,13 @@ public class UlicaScript : MonoBehaviour
 
         _audioSource.PlayOneShot(_zadixaetsa);
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
 
+        _player.transform.position = new Vector3(_player.transform.position.x, _player.transform.position.y - 0.75f, _player.transform.position.z);
         _playerRenderer.sprite = _died;
+
+        yield return new WaitForSeconds(1f);
+
+        RestartGameVrem._restartGame.Restart();
     }
 }

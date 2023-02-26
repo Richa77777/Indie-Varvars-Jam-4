@@ -19,6 +19,11 @@ public class Player : MonoBehaviour
         {
             if (Input.GetAxisRaw("Horizontal") != 0)
             {
+                if (_animator.enabled == false)
+                {
+                    _animator.enabled = true;
+                }
+
                 _animator.SetBool("isWalking", true);
 
                 if (_idleCor != null)
@@ -27,6 +32,7 @@ public class Player : MonoBehaviour
                     _idleCor = null;
                     _animator.StopPlayback();
                 }
+
 
                 if (Input.GetAxisRaw("Horizontal") > 0)
                 {
@@ -70,8 +76,9 @@ public class Player : MonoBehaviour
 
     private IEnumerator _idleCor;
 
-    private bool _moveBlock = true;
+    [SerializeField] private bool _moveBlock = true;
 
+    public float MoveSpeed { get => _moveSpeed; set => _moveSpeed = value; }
     public Animator AnimatorGet => _animator;
 
     private void Move()
@@ -96,9 +103,17 @@ public class Player : MonoBehaviour
 
     public void BlockMove()
     {
+        StartCoroutine(BlockMoveCor());
+    }
+
+    private IEnumerator BlockMoveCor()
+    {
         _moveBlock = true;
-        _animator.enabled = false;
         StopMove();
+
+        yield return new WaitForSeconds(0.15f);
+
+        _animator.enabled = false;
     }
 
     public void UnblockMove()

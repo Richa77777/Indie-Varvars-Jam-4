@@ -11,31 +11,28 @@ public class PlayerWakeUp : MonoBehaviour
     private DialogSystem.DialogController _dialogController;
     private DialogSystem.Dialog _dialog;
 
-    private CanvasGroup _canvasGroup;
-    
-    private void Start()
+    private void Awake()
     {
-        _canvasGroup = GetComponent<CanvasGroup>();
-
-        _dialog = GetComponent<DialogSystem.Dialog>();
-        _dialogController = FindObjectOfType<DialogSystem.DialogController>(true);
+        PlayerPrefs.SetInt("Deaths", 0);
     }
 
-    public void StartNat()
+    private void Start()
     {
+        _dialog = GetComponent<DialogSystem.Dialog>();
+        _dialogController = FindObjectOfType<DialogSystem.DialogController>(true);
+
         StartCoroutine(StartCor());
     }
 
     private IEnumerator StartCor()
     {
+        yield return new WaitForSeconds(1.5f);
+
         _notPlayer.SetActive(false);
         _player.SetActive(true);
 
-        gameObject.GetComponent<Button>().interactable = false;
-        _canvasGroup.alpha = 0f;
+        yield return new WaitForSeconds(0.15f);
 
-        yield return new WaitForSeconds(0.1f);
-        
         _dialogController.PlayNewDialog(_dialog);
     }
 }

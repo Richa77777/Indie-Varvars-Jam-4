@@ -12,6 +12,13 @@ public class ClickButtonTrigger : MonoBehaviour
 
     [SerializeField] private KeyCode _keyCode;
 
+    private AudioSource _audioSource;
+
+    private void Awake()
+    {
+        _audioSource = transform.parent.GetComponent<AudioSource>();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.GetComponent<Player>())
@@ -32,6 +39,8 @@ public class ClickButtonTrigger : MonoBehaviour
     {
         if (Input.GetKeyUp(_keyCode) && _tab.activeInHierarchy == true)
         {
+            _audioSource.Play();
+
             _actions?.Invoke();
 
             if (_offIfClick == true)

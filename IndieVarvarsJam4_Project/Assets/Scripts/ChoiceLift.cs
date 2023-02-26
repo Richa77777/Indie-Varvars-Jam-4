@@ -120,5 +120,9 @@ public class ChoiceLift : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         _dialogController.PlayNewDialog(_dialog2);
+
+        yield return new WaitForSeconds(_liftController.AudioSourceGet.clip.length + 0.3f);
+
+        RestartGameVrem._restartGame.Restart();
     }
 }

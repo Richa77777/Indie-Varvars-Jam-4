@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class PlayerActionsController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private int _diedAmount = 0;
+    
+    public int DiedAmountAdd
     {
-        
+        get
+        {
+            return _diedAmount;
+        }
+
+        set
+        {
+            _diedAmount += value;
+            PlayerPrefs.SetInt("Deaths", _diedAmount);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        _diedAmount = PlayerPrefs.GetInt("Deaths");
     }
 }

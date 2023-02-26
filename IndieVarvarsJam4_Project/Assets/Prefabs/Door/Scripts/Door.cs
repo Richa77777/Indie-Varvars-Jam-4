@@ -6,6 +6,8 @@ using Cinemachine;
 
 public class Door : MonoBehaviour
 {
+    private Player _player;
+
     [SerializeField] private Door _attachDoor;
     [SerializeField] private GameObject _point;
     [SerializeField] private UnityEvent _actions = new UnityEvent();
@@ -23,6 +25,7 @@ public class Door : MonoBehaviour
 
     private void Start()
     {
+        _player = FindObjectOfType<Player>(true);
         _audioSource = GetComponent<AudioSource>();
 
         if (_doorSound != null)
@@ -49,10 +52,21 @@ public class Door : MonoBehaviour
             }
         }
 
-        else if (_doorOpen == false)
+        else if (collision.CompareTag("Player") && _doorOpen == false)
         {
             _actions?.Invoke();
         }
+    }
+
+    public void TeleportToDoor(Collider2D colliderNextScene)
+    {
+        if (_doorSound != null)
+            _audioSource.Play();
+
+        _player.gameObject.transform.position = PointGet.transform.position;
+
+        _confiner.InvalidatePathCache();
+        _confiner.m_BoundingShape2D = colliderNextScene;
     }
 
     public void OpenDoor()
