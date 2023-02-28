@@ -92,8 +92,6 @@ public class Player : MonoBehaviour
     private void StopMove()
     {
         _rigidBody.velocity = new Vector2(0, 0);
-        _animator.SetBool("isWalking", false);
-        _animator.StopPlayback();
     }
 
     public void PlaySound()
@@ -103,23 +101,17 @@ public class Player : MonoBehaviour
 
     public void BlockMove()
     {
-        StartCoroutine(BlockMoveCor());
-    }
-
-    private IEnumerator BlockMoveCor()
-    {
         _moveBlock = true;
+
         StopMove();
 
-        yield return new WaitForSeconds(0.15f);
-
-        _animator.enabled = false;
+        _animator.SetBool("isWalking", false);
+        _animator.StopPlayback();
     }
 
     public void UnblockMove()
     {
         _moveBlock = false;
-        _animator.enabled = true;
     }
 
     private IEnumerator IdleCor()
