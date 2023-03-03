@@ -117,7 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6b8d724b39d49e49b4a586edd0fd7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 1.65
+  _moveSpeed: 1.5
   _stepSound: {fileID: 8300000, guid: 7187dc81f98b8be4eb97bfc4dd9a5abf, type: 3}
   _moveBlock: 1
 --- !u!50 &3885775708375331621
