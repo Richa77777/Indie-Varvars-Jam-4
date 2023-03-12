@@ -39,7 +39,13 @@ public class DiedScript : MonoBehaviour
     {
         yield return new WaitForSeconds(7.5f);
 
+        _player.AnimatorGet.enabled = false;
+
         _player.BlockMove();
+
+        _player.AnimatorGet.enabled = false;
+
+        yield return new WaitForSeconds(0.1f);
 
         _audioSource.PlayOneShot(_boom);
         _playerRenderer.sprite = _koleni;
@@ -69,7 +75,7 @@ public class DiedScript : MonoBehaviour
     {
         _player.BlockMove();
 
-        yield return new WaitForSeconds(0.16f);
+        _player.AnimatorGet.enabled = false;
 
         _audioSource.PlayOneShot(_boom);
         _playerRenderer.sprite = _koleni;

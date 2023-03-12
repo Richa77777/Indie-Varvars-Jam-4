@@ -7,7 +7,6 @@ public class SoundInPodjezd : MonoBehaviour
     private AudioSource _audioSource;
     [SerializeField] private GameObject[] _whatOn = new GameObject[2];
 
-
     private void Start()
     {
         _audioSource = GetComponent<AudioSource>();

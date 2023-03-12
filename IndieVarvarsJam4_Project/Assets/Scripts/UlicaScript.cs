@@ -39,6 +39,8 @@ public class UlicaScript : MonoBehaviour
     {
         _player.BlockMove();
 
+        _player.AnimatorGet.enabled = false;
+
         _audioSource.PlayOneShot(_boom);
         _playerRenderer.sprite = _koleni;
 
